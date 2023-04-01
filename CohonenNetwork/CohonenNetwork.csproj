@@ -5,10 +5,4 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Reference Include="YetAnotherPerceptron">
-      <HintPath>..\..\Perceptron\YetAnotherPerceptron\bin\Debug\netcoreapp3.1\YetAnotherPerceptron.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>

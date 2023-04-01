@@ -49,9 +49,7 @@ namespace CohonenNetwork
 
                 if (inputString == "") break;
 
-                var input = YetAnotherPerceptron
-                    .StaticHelpers
-                    .StringToDoubleValues(inputString);
+                var input = StaticHelpers.StringToDoubleValues(inputString);
 
                 var vector = StaticHelpers
                     .ValuesArrayToVector(

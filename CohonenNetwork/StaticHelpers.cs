@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -11,6 +13,54 @@ namespace CohonenNetwork
     /// </summary>
     public class StaticHelpers
     {
+        /// <summary>
+        /// Приводит строку входных данных к массиву значений
+        /// </summary>
+        /// <param name="inputString">Строка входных данных</param>
+        /// <param name="separator">Разделитель значений</param>
+        /// <param name="culture">
+        /// Культура разделителя целой и десятичной части 
+        /// (по умолчанию точка)
+        /// </param>
+        /// <returns>Массив чисел с плавающей точкой</returns>
+        public static double[] StringToDoubleValues(string inputString, char separator = ',', string culture = "en-us")
+        {
+            List<double> values = new List<double>();
+
+            var stringValues = inputString.Split(separator);
+
+            foreach (var stringValue in stringValues)
+            {
+                values.Add(double.Parse(stringValue, new CultureInfo(culture)));
+            }
+
+            return values.ToArray();
+        }
+
+        /// <summary>
+        /// Получает данные учительской выборки (входы или выходы) из текстового файла
+        /// </summary>
+        /// <param name="dataFilePath">Путь к файлу с данными</param>
+        /// <param name="separator">Разделитель значений</param>
+        /// <param name="culture">
+        /// Культура разделителя целой и десятичной части 
+        /// (по умолчанию точка)
+        /// </param>
+        /// <returns>Список массивов (входный или выходных) значений</returns>
+        public static List<double[]> GetTeacherDataFromTxtFile(string dataFilePath, char separator = ',', string culture = "en-us")
+        {
+            var valuesArrayList = new List<double[]>();
+
+            var valuesStrings = File.ReadAllLines(dataFilePath.Trim('"'));
+
+            for (int i = 0; i < valuesStrings.Length; i++)
+            {
+                valuesArrayList.Add(StaticHelpers.StringToDoubleValues(valuesStrings[i], separator, culture));
+            }
+
+            return valuesArrayList;
+        }
+
         /// <summary>
         /// Нормализовать входные данные
         /// </summary>
@@ -157,9 +207,7 @@ namespace CohonenNetwork
 
             NeuralNetwork network;
 
-            inputs = YetAnotherPerceptron
-                .NetworkStatics
-                .GetTeacherDataFromTxtFile(inputFilePath);
+            inputs = GetTeacherDataFromTxtFile(inputFilePath);
 
             normInputs = NormalizeInputs(inputs);
 
