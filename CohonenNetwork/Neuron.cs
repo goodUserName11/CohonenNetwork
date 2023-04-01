@@ -42,14 +42,14 @@ namespace CohonenNetwork
             {
                 // Записи
                 // k - итерация (эпоха)
-                //W^(k+1) = W^(k) + nu^(k) + (x - w^k)
+                //W^(k+1) = W^(k) + nu^(k) * (x - w^k)
                 // j         j        j            j Подстрочное
-                //Weights[i] = Weights[i] + neighborship * learningRate + currVector[i] - neighborship;
+                Weights[i] = Weights[i] + neighborship * learningRate * (currVector[i] - Weights[i]);
 
                 // Wikipedia
                 //Wnew = Wold * (1 - nu * lr) + x * nu * lr
                 // l      l            j(x)l          j(x)l    Подстрочное
-                Weights[i] = Weights[i] * (1 - neighborship * learningRate) + currVector[i] * neighborship * learningRate;
+                //Weights[i] = Weights[i] * (1 - neighborship * learningRate) + currVector[i] * neighborship * learningRate;
 
             }
         }
