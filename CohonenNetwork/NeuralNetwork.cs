@@ -62,10 +62,6 @@ namespace CohonenNetwork
             }
 
             InitializeNeighborshipMatrix();
-
-            //_neighborshipRadius = Math.Max(_width, _height) / 2;
-
-            //InitializeConnections();
         }
 
         public void Train()
@@ -108,7 +104,7 @@ namespace CohonenNetwork
                         _neurons[j].UpdateWeights(
                             _neighborshipMatrix[j, minIndex], learningRate, _inputs[i]);
 
-                        _neighborshipMatrix[j, minIndex] = Math.Pow(Math.E, -1 / 2 *
+                        _neighborshipMatrix[j, minIndex] = Math.Pow(Math.E, -0.5 *
                         _neurons[j].CalculateDistance(_neurons[minIndex]));
                     }
 
@@ -159,7 +155,8 @@ namespace CohonenNetwork
             {
                 for (int j = 0; j < _neighborshipMatrix.GetLength(1); j++)
                 {
-                    _neighborshipMatrix[i, j] = Math.Pow(Math.E, -1/2 *
+                    // y=e^{-1/2*x}
+                    _neighborshipMatrix[i, j] = Math.Pow(Math.E, -0.5 *
                         _neurons[i].CalculateDistance(_neurons[j]));
                 }
             }
