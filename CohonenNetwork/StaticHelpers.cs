@@ -101,9 +101,10 @@ namespace CohonenNetwork
         }
 
         /// <summary>
-        /// TODO
+        /// Нормализация входного вектора
         /// </summary>
         /// <param name="inputs"></param>
+        /// <param name="normInputs"></param>
         /// <param name="input"></param>
         /// <returns></returns>
         public static double[] NormalizeInput(List<double[]> inputs, List<double[]> normInputs, double[] input) 
@@ -124,9 +125,6 @@ namespace CohonenNetwork
 
             return normInput;
             // Работает с погрешностями
-            //inputs.Add(input);
-
-            //return NormalizeInputs(inputs).Last();
         }
 
         /// <summary>
