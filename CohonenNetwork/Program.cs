@@ -19,16 +19,23 @@ namespace CohonenNetwork
             Console.WriteLine("Hello NeuroWorld! Part 2");
 
             string inputFilePath;
+            string outputFilePath;
+
             int numberOfEpoches;
+            
 
             if (args.Length == 2)
             {
                 inputFilePath = args[0];
+                outputFilePath = args[1];
             }
             else
             {
                 Console.WriteLine("Введите путь для файла с входными данными");
                 inputFilePath = Console.ReadLine();
+
+                Console.WriteLine("Введите путь для файла с результатами");
+                outputFilePath = Console.ReadLine();
             }
 
             Console.WriteLine("Введите кол-во эпох");
@@ -39,6 +46,16 @@ namespace CohonenNetwork
 
             network.Train();
 
+            var outputs = StaticHelpers.GetTeacherDataFromTxtFile(outputFilePath);
+
+            List<int> outputClasses = new List<int>();
+
+            foreach (var output in outputs)
+            {
+                outputClasses.Add(Convert.ToInt32(output[0]));
+            }
+
+            Console.WriteLine("Индекс Rand: {0:0.0000}", network.RandIndex(outputClasses));
 
             while (true)
             {

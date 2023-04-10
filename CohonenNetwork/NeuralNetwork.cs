@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using System.Numerics;
+using System.ComponentModel;
 
 namespace CohonenNetwork
 {
@@ -104,8 +106,18 @@ namespace CohonenNetwork
                         _neurons[j].UpdateWeights(
                             _neighborshipMatrix[j, minIndex], learningRate, _inputs[i]);
 
-                        _neighborshipMatrix[j, minIndex] = Math.Pow(Math.E, -0.5 *
-                        _neurons[j].CalculateDistance(_neurons[minIndex]));
+                        //Console.WriteLine("###################");
+                        //foreach (Neuron neuron in _neurons)
+                        //{
+                        //    foreach (double weight in neuron.Weights)
+                        //    {
+                        //        Console.Write($"{weight:0.00000},");
+                        //    }
+                        //    Console.WriteLine();
+                        //}
+
+                        //_neighborshipMatrix[j, minIndex] = Math.Pow(Math.E, -0.5 *
+                        //_neurons[j].CalculateDistance(_neurons[minIndex]));
                     }
 
                 }
@@ -142,6 +154,48 @@ namespace CohonenNetwork
             }
 
             return minIndex;
+        }
+
+        /// <summary>
+        /// Подстчет индекса Rand
+        /// </summary>
+        /// <param name="outputs">Результаты с номерами классов</param>
+        /// <returns>Индекс Rand</returns>
+        public double RandIndex(List<int> outputs)
+        {
+            // Элементы принадлежат одному кластеру и одному классу
+            int Tp = 0;
+            // Элементы принадлежат одному кластеру, но разным классам
+            int Fp = 0;
+            // Элементы принадлежат разным кластерам, но одному классу
+            int Fn = 0;
+            // Элементы принадлежат разным кластерам и разным классам
+            int Tn = 0;
+
+            List<int> networkResults = new List<int>();
+
+            for (int j = 0; j < outputs.Count; j++)
+            {
+                networkResults.Add(AskNetwork(_inputs[j]));
+            }
+
+            for (int i = 0; i < networkResults.Count - 1; i++)
+            {
+                for (int j = 1; j < networkResults.Count; j++)
+                {
+                    if (networkResults[i] == networkResults[j] && outputs[i] == outputs[j])
+                        Tp++;
+                    else if (networkResults[i] == networkResults[j] && outputs[i] != outputs[j])
+                        Fp++;
+                    else if (networkResults[i] != networkResults[j] && outputs[i] == outputs[j])
+                        Fn++;
+                    else if (networkResults[i] != networkResults[j] && outputs[i] != outputs[j])
+                        Tn++;
+                }
+            }
+
+
+            return (Tp + Tn + 0.0)/(Tp + Tn + Fp + Fn);
         }
 
         /// <summary>
